@@ -1,0 +1,67 @@
+import sys
+sys.path.insert(0, "/home/isaac/Desktop/Python/")
+
+import isaac
+
+def next(a):
+#    global char1
+#    global char2
+
+    if len(a) <= 1:
+        return a
+
+    s = list(a)
+
+    char1 = ""
+    char2 = ""
+    index = 0
+
+    for x in s[:-1][::-1]:
+        if int(x) < int(s[s.index(x) + 1]):
+            char1 = x
+            break
+
+    try:
+        for y in s[::-1]:
+            if int(y) > int(char1):
+                char2 = y
+                break
+    except:
+#        print char1
+        pass
+
+    index = s.index(char1) + 1
+
+    s[s.index(char1)] = "R"
+    s[s.index(char2)] = char1
+    s[s.index("R")] = char2
+
+    return "".join(s[:index]) + "".join(sorted(s[index:]))
+
+num = 0
+
+for i in xrange(2, 1000000):
+    prime = True
+
+    if isaac.is_prime(i):
+            b = str(i)
+
+            while True:
+                a = b
+
+                try:
+                    b = next(str(i))
+                except ValueError:
+                    b = a
+
+                if a == b:
+                    break
+
+                if not isaac.is_prime(int(i)):
+                    prime = False
+                    break
+    else:
+        prime = False
+
+    if prime:
+        num += 1
